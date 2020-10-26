@@ -1,21 +1,39 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { AsyncStorage } from 'react-native'
+import useCachedResources from './hooks/useCachedResources';
+import useColorScheme from './hooks/useColorScheme';
+import Navigation from './navigation';
+import fetchLogin from './hooks/fetchLogin'
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
+  const isLoadingComplete = useCachedResources();
+  const colorScheme = useColorScheme();
+  const [user, setUser] = useState(true)
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+  useEffect(() => {
+    const token = AsyncStorage.getItem("token");
+
+    if(!!token){
+      setUser(fetchLogin(token))
+    }
+  }, [])
+
+  const logout = () => {
+    AsyncStorage.removeItem("token")
+
+    setUser(null)
+  }
+
+  if (!isLoadingComplete) {
+    return null;
+  } else {
+    return (
+      <SafeAreaProvider>
+        <Navigation colorScheme={colorScheme} user={user} logout={logout} />
+        <StatusBar />
+      </SafeAreaProvider>
+    );
+  }
+}
