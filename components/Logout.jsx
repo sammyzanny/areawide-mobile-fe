@@ -1,15 +1,20 @@
-import * as React from 'react';
-import { StyleSheet, Button } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, TextInput, Button } from 'react-native';
 
-import Upload from '../components/Upload';
-import { Text, View } from '../components/Themed';
+import { Text, View } from './Themed';
 
-export default function TabOneScreen({user}) {
+export default function Logout({logout}) {
 
+
+
+  
+
+  
 
   return (
     <View style={styles.container}>
-      <Upload user={user}/>
+      <Text style={styles.title}>Log Out</Text>
+        <Button title="Sign Out" onPress={logout}></Button>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </View>
   );

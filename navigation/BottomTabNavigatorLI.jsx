@@ -7,7 +7,6 @@ import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import UploadScreen from '../screens/UploadScreen';
 import LogoutScreen from '../screens/LogoutScreen';
-import { BottomTabParamList, TabOneParamList, TabTwoParamList } from '../types';
 
 const BottomTab = createBottomTabNavigator();
 

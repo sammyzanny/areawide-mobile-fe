@@ -2,9 +2,9 @@ import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, TextInput, Button, Image, Platform } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from './Themed';
 
-export default function Login({user}) {
+export default function Upload({user}) {
 
     const [image, setImage] = useState(null);
     const [message, setMessage] = useState("");
@@ -31,7 +31,7 @@ export default function Login({user}) {
             })
         }
         
-        
+        setImage(null)
         setMessage("");
 
     }
@@ -45,7 +45,6 @@ export default function Login({user}) {
         });
 
         console.log(result);
-
         if (!result.cancelled) {
         setImage(result.uri);
         }
@@ -63,10 +62,15 @@ export default function Login({user}) {
                 placeholder="Message" 
                 multiline = {true}
                 numberOfLines = {4} 
+                style={{backgroundColor: "#fff", margin: 24,
+                fontSize: 18,
+                textAlign: 'center',
+                width: 250,
+                height: 100}}
                 value={message} 
                 onChangeText={setMessage} />
-            {image ? <Button title="Choose Image" onPress={pickImage} /> :
-            <Button title="Submit" onPress={handleOnSubmit} /> }
+                {image ? <Button title="Submit" onPress={handleOnSubmit} /> :
+             <Button title="Choose Image" onPress={pickImage} />}
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         </View>
     );
