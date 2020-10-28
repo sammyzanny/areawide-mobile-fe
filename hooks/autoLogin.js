@@ -1,6 +1,6 @@
 import Urls from '../constants/Urls';
 
-export default function fetchLogin(token){
+export default function autoLogin(token){
     const reqObj = {
         method: "GET",
         headers: {

@@ -8,7 +8,7 @@ export default function TabOneScreen() {
 
   return (
     <View style={styles.container}>
-      <Login />
+      <Login login={login} />
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </View>
   );
