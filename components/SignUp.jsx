@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, Button } from 'react-native';
 
-import { Text, View } from '../components/Themed';
+import { Text, View } from './Themed';
 
 export default function SignUp() {
 
