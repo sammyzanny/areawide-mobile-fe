@@ -5,18 +5,20 @@ import { AsyncStorage } from 'react-native'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
-import fetchLogin from './hooks/fetchLogin'
+import autoLogin from './hooks/autoLogin'
+import Urls from './constants/Urls';
+import manualLogin from './hooks/manualLogin';
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  const [user, setUser] = useState(true)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     const token = AsyncStorage.getItem("token");
 
     if(!!token){
-      setUser(fetchLogin(token))
+      setUser(autoLogin(token))
     }
   }, [])
 
@@ -26,12 +28,20 @@ export default function App() {
     setUser(null)
   }
 
+  const login = (userInfo) =>{
+    const data = manualLogin(userInfo)
+    
+    AsyncStorage.setItem("token", data.jwt)
+    setUser(data.user)
+    
+  }
+
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} user={user} logout={logout} />
+        <Navigation colorScheme={colorScheme} user={user} login={login} logout={logout} />
         <StatusBar />
       </SafeAreaProvider>
     );

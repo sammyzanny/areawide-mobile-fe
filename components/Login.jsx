@@ -11,21 +11,7 @@ export default function Login({login}) {
 
   const handleOnSubmit = () => {
 
-    const reqObj = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            username,
-            password
-        })
-
-
-    }
-    fetch(Urls.API, reqObj)
-    .then(resp => resp.json())
-    .then(data => {
-      login(data)
-    })
+    login({username, password})
     
     setUsername("");
     setPassword("");
