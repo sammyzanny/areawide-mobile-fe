@@ -4,7 +4,7 @@ import { StyleSheet, Button } from 'react-native';
 import Login from '../components/Login';
 import { Text, View } from '../components/Themed';
 
-export default function TabOneScreen() {
+export default function LoginScreen({login}) {
 
   return (
     <View style={styles.container}>

@@ -5,39 +5,32 @@ import { Text, View } from './Themed';
 
 export default function SignUp() {
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
-
-
+  const [officeName, setOfficeName] = useState("")
+  const [address, setAddress] = useState("");
+  
 
 
   const handleOnSubmit = () => {
-    const reqObj = {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({
-            username,
-            password,
-            name,
-            email,
-            city,
-            phone
-        })
-    }
-
+    
+    const userInfo = {email, password, name, address, phone, officeName}
+    const filled = userInfo.every(el => el.length > 0)
     if(confirmPassword === password){
-        //fetch()
-        setUsername("");
+      if(filled){
+        signup(userInfo)
+        setEmail("");
+        setPassword("")
         setConfirmPassword("");
         setName("");
-        setEmail("");
-        setCity("");
+        setAddress("");
         setPhone("");
+      } else {
+        alert("Please make sure all fields are filled")
+      }
     } else {
         alert("Passwords do not match");
         setConfirmPassword("");
@@ -51,14 +44,14 @@ export default function SignUp() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-        <TextInput value={username} placeholder="Username" style={styles.input} onChangeText={setUsername} ></TextInput>
-        <TextInput value={password} placeholder="Password" style={styles.input} onChangeText={setPassword} secureTextEntry={true} ></TextInput>
-        <TextInput value={confirmPassword} placeholder="Confirm Password" style={styles.input} onChangeText={setConfirmPassword} secureTextEntry={true}></TextInput>
-        <TextInput value={name} placeholder="Name" style={styles.input} onChangeText={setName}></TextInput>
-        <TextInput value={email} placeholder="Email" style={styles.input} onChangeText={setEmail}></TextInput>
-        <TextInput value={city} placeholder="City" style={styles.input} onChangeText={setCity}></TextInput>
-        <TextInput value={phone} placeholder="Phone Number" style={styles.input} onChangeText={setPhone}></TextInput>
-        <Button title="Register" onPress={handleOnSubmit}></Button>
+        <TextInput value={email} placeholder="Email" style={styles.input} onChangeText={setEmail} />
+        <TextInput value={password} placeholder="Password" style={styles.input} onChangeText={setPassword} secureTextEntry={true}  />
+        <TextInput value={confirmPassword} placeholder="Confirm Password" style={styles.input} onChangeText={setConfirmPassword} secureTextEntry={true} />
+        <TextInput value={name} placeholder="Name" style={styles.input} onChangeText={setName} />
+        <TextInput value={phone} placeholder="Phone Number" style={styles.input} onChangeText={setPhone} />
+        <TextInput value={officeName} placeholder="Office Name" style={styles.input} onChangeText={setOfficeName} />
+        <TextInput value={address} placeholder="Office Address" style={styles.input} onChangeText={setAddress} />
+        <Button title="Register" onPress={handleOnSubmit} />
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </View>
   );

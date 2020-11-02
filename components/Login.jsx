@@ -2,16 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, Button, TextInput } from 'react-native';
 
 import { Text, View} from './Themed';
-import Urls from '../constants/Urls';
 
 export default function Login({login}) {
 
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleOnSubmit = () => {
 
-    login({username, password})
+    login({email, password})
     
     setUsername("");
     setPassword("");
@@ -22,7 +21,7 @@ export default function Login({login}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-        <TextInput placeholder="Username" value={username} style={styles.input} onChangeText={setUsername} ></TextInput>
+        <TextInput placeholder="Username" value={email} style={styles.input} onChangeText={setEmail} ></TextInput>
         <TextInput placeholder="Password" value={password} style={styles.input} onChangeText={setPassword}></TextInput>
         <Button title="submit" onPress={handleOnSubmit}>Login</Button>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
