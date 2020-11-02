@@ -49,7 +49,6 @@ export default function App() {
   }
 
   const logout = () => {
-    console.log("wired Up!")
     _removeToken()
     setUser(null)
   }
@@ -64,8 +63,8 @@ export default function App() {
 
   const signUp = (userInfo) => {
     const data = register(userInfo)
-
-    
+    _storeToken(data.jwt)
+    setUser(data.user)
   }
 
 
@@ -74,7 +73,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} user={user} login={login} logout={logout} />
+        <Navigation colorScheme={colorScheme} user={user} login={login} logout={logout} signUp={signUp} />
         <StatusBar />
       </SafeAreaProvider>
     );

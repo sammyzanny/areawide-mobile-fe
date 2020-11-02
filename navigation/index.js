@@ -9,12 +9,12 @@ import BottomTabNavigatorLI from './BottomTabNavigatorLI';
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
-export default function Navigation({ colorScheme, user, logout, login }) {
+export default function Navigation({ colorScheme, user, logout, login, signUp}) {
   return (
     <NavigationContainer
     theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       
-      {user ? LoggedInNavigator({user, logout}) : RootNavigator({login})}
+      {user ? LoggedInNavigator({user, logout}) : RootNavigator({login, signUp})}
     </NavigationContainer>
   );
 }
@@ -44,11 +44,11 @@ function LoggedInNavigator({user, logout}) {
   );
 }
 
-function RootNavigator({login}) {
+function RootNavigator({login, signUp}) {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Root"  >{props => <BottomTabNavigator login={login} />}</Stack.Screen>
+    <Stack.Screen name="Root"  >{props => <BottomTabNavigator login={login} signUp={signUp} />}</Stack.Screen>
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );

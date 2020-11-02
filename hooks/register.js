@@ -14,5 +14,13 @@ const reqObj = {
 }
 
 export default function register(userInfo){
-    fetch(Urls.API, reqObj)
+    fetch(Urls.API+"/users", reqObj)
+    .then(resp => resp.json())
+    .then(data => {
+        if (data.error){
+            alert(data.error)
+        } else {
+            return data
+        }
+    })
 }
