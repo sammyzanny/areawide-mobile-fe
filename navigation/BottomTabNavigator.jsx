@@ -12,6 +12,7 @@ const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator({login}) {
   const colorScheme = useColorScheme();
+  const compOne = props => <TabOneNavigator login={login} />
 
   return (
     <BottomTab.Navigator
@@ -19,9 +20,7 @@ export default function BottomTabNavigator({login}) {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Login"
-        login={login}
-        component={TabOneNavigator}
-    
+        component={compOne}
       />
       <BottomTab.Screen
         name="SignUp"
@@ -49,10 +48,9 @@ function TabOneNavigator({login}) {
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="LoginScreen"
-        login={login}
-        component={LoginScreen}
         options={{ headerTitle: 'Login' }}
-      />
+        >{props => <LoginScreen login={login} />}
+        </TabOneStack.Screen>
     </TabOneStack.Navigator>
   );
 }

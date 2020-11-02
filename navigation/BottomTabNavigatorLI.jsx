@@ -10,23 +10,20 @@ import LogoutScreen from '../screens/LogoutScreen';
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator({user, logout}) {
+export default function BottomTabNavigatorLI({user, logout}) {
   const colorScheme = useColorScheme();
-
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
-        name="Upload"
-        component={TabOneNavigator}
-        user={user}
-      />
+        name="Upload" 
+        >{props => <TabOneNavigator user={user} />}
+        </BottomTab.Screen>
       <BottomTab.Screen
         name="Logout"
-        component={TabTwoNavigator}
-        logout={logout}
-      />
+        >{props => <TabTwoNavigator logout={logout} />}
+        </BottomTab.Screen>
     </BottomTab.Navigator>
   );
 }
@@ -45,14 +42,14 @@ export default function BottomTabNavigator({user, logout}) {
 const TabOneStack = createStackNavigator();
 
 function TabOneNavigator({user}) {
+
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="UploadScreen"
-        user={user}
-        component={UploadScreen}
         options={{ headerTitle: 'Upload Crack' }}
-      />
+        >{props => <UploadScreen user={user} />}
+        </TabOneStack.Screen>
     </TabOneStack.Navigator>
   );
 }
@@ -60,14 +57,14 @@ function TabOneNavigator({user}) {
 const TabTwoStack = createStackNavigator();
 
 function TabTwoNavigator({logout}) {
+
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="LogoutScreen"
-        logout={logout}
-        component={LogoutScreen}
         options={{ headerTitle: 'Sign Out' }}
-      />
+        >{props => <LogoutScreen logout={logout} />}
+        </TabTwoStack.Screen>
     </TabTwoStack.Navigator>
   );
 }

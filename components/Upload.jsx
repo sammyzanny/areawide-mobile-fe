@@ -3,10 +3,11 @@ import React, { useState, useEffect} from 'react';
 import { StyleSheet, TextInput, Button, Image, Platform } from 'react-native';
 
 import { Text, View } from './Themed';
+import Urls from '../constants/Urls';
 
 export default function Upload({user}) {
 
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState([]);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -26,13 +27,19 @@ export default function Upload({user}) {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify({
-                user,
+                images,
                 message
             })
         }
+
+        fetch(Urls.API+'/upload', reqObj)
+        .then(resp => resp.json())
+        .then(data => {
+            alert(data.message)
+            setImages([])
+            setMessage("");
+        })
         
-        setImage(null)
-        setMessage("");
 
     }
 
@@ -43,21 +50,26 @@ export default function Upload({user}) {
         aspect: [4, 3],
         quality: 1,
         });
-
-        console.log(result);
         if (!result.cancelled) {
-        setImage(result.uri);
+            const pics = Object.assign([], images)
+            pics.push(result.uri)
+            setImages(pics);
         }
     };
+
+    const renderImages = () => {
+        return images.map(image => {
+                return (<Image
+                source={{ uri: image }}
+                style={{ width: 50, height: 50}}
+            />)})
+    }
   
 
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Login</Text>
-            <Image
-                source={{ uri: image }}
-                style={{ width: 300, height: 300 }}
-            />
+        <View >
+            <Text style={styles.title}>Upload multiple images/videos</Text>
+            {renderImages()}
             <TextInput 
                 placeholder="Message" 
                 multiline = {true}
@@ -69,8 +81,8 @@ export default function Upload({user}) {
                 height: 100}}
                 value={message} 
                 onChangeText={setMessage} />
-                {image ? <Button title="Submit" onPress={handleOnSubmit} /> :
-             <Button title="Choose Image" onPress={pickImage} />}
+            <Button title="Choose Image" onPress={pickImage} />
+            <Button title="Submit" onPress={handleOnSubmit} />
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         </View>
     );
