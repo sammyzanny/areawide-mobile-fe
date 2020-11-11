@@ -1,14 +1,18 @@
 import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, TextInput, Button, Image, Platform } from 'react-native';
-
 import { Text, View } from './Themed';
 import Urls from '../constants/Urls';
 
-export default function Upload({user}) {
+export default function Upload({token}) {
 
     const [images, setImages] = useState([]);
     const [message, setMessage] = useState("");
+    const [address, setAddress] = useState("");
+    const [billing, setBilling] = useState("");
+    const [contact, setContact] = useState("");
+
+
 
     useEffect(() => {
         (async () => {
@@ -22,17 +26,26 @@ export default function Upload({user}) {
     }, []);
 
     const handleOnSubmit = () => {
+        
 
         const reqObj = {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+            },
             body: JSON.stringify({
-                images,
-                message
+                post: {
+                    images,
+                    message,
+                    contact,
+                    billing,
+                    address
+                }
             })
         }
 
-        fetch(Urls.API+'/upload', reqObj)
+        fetch('https://b0a2aeac3053.ngrok.io/posts', reqObj)
         .then(resp => resp.json())
         .then(data => {
             alert(data.message)
@@ -72,15 +85,25 @@ export default function Upload({user}) {
             {renderImages()}
             <TextInput 
                 placeholder="Message" 
-                multiline = {true}
-                numberOfLines = {4} 
-                style={{backgroundColor: "#fff", margin: 24,
-                fontSize: 18,
-                textAlign: 'center',
-                width: 250,
-                height: 100}}
+                style={styles.submission}
+                
                 value={message} 
                 onChangeText={setMessage} />
+            <TextInput 
+                placeholder="Client Address" 
+                style={styles.submission}
+                value={address} 
+                onChangeText={setAddress} />
+            <TextInput 
+                placeholder="Client Billing Address" 
+                style={styles.submission}
+                value={billing} 
+                onChangeText={setBilling} />
+            <TextInput 
+                placeholder="Client Contact Info" 
+                style={styles.submission}
+                value={contact} 
+                onChangeText={setContact} />
             <Button title="Choose Image" onPress={pickImage} />
             <Button title="Submit" onPress={handleOnSubmit} />
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
@@ -103,4 +126,14 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
+  submission: {
+      backgroundColor: "#fff", 
+      margin: 24,
+      fontSize: 18,
+      textAlign: 'center',
+      width: 250,
+      height: 50
+    }
 });
+// multiline = {true}
+// numberOfLines = {4} 

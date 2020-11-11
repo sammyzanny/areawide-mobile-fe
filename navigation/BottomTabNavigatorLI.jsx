@@ -10,7 +10,7 @@ import LogoutScreen from '../screens/LogoutScreen';
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigatorLI({user, logout}) {
+export default function BottomTabNavigatorLI({token, logout}) {
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
@@ -18,7 +18,7 @@ export default function BottomTabNavigatorLI({user, logout}) {
       tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
       <BottomTab.Screen
         name="Upload" 
-        >{props => <TabOneNavigator user={user} />}
+        >{props => <TabOneNavigator token={token}/>}
         </BottomTab.Screen>
       <BottomTab.Screen
         name="Logout"
@@ -41,14 +41,14 @@ export default function BottomTabNavigatorLI({user, logout}) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator();
 
-function TabOneNavigator({user}) {
+function TabOneNavigator({token}) {
 
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
         name="UploadScreen"
         options={{ headerTitle: 'Upload Crack' }}
-        >{props => <UploadScreen user={user} />}
+        >{props => <UploadScreen token={token} />}
         </TabOneStack.Screen>
     </TabOneStack.Navigator>
   );

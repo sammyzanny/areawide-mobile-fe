@@ -4,10 +4,10 @@ import { StyleSheet } from 'react-native';
 import SignUp from '../components/SignUp';
 import { Text, View } from '../components/Themed';
 
-export default function TabTwoScreen() {
+export default function TabTwoScreen({signup}) {
   return (
     <View style={styles.container}>
-      <SignUp />
+      <SignUp signup={signup} />
     </View>
   );
 }

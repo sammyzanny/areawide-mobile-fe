@@ -4,12 +4,12 @@ import { StyleSheet, Button } from 'react-native';
 import Upload from '../components/Upload';
 import { Text, View } from '../components/Themed';
 
-export default function TabOneScreen({user}) {
+export default function TabOneScreen({token}) {
 
 
   return (
     <View style={styles.container}>
-      <Upload user={user}/>
+      <Upload token={token}/>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </View>
   );

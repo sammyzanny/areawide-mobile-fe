@@ -3,22 +3,31 @@ import { StyleSheet, TextInput, Button } from 'react-native';
 
 import { Text, View } from './Themed';
 
-export default function SignUp() {
+export default function SignUp({signup}) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [officeName, setOfficeName] = useState("")
+  const [officename, setOfficename] = useState("")
   const [address, setAddress] = useState("");
   
 
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (e) => {
     
-    const userInfo = {email, password, name, address, phone, officeName}
-    const filled = userInfo.every(el => el.length > 0)
+    const userInfo = {email, password, name, address, phone, officename}
+    
+    let filled = true;
+
+    // for(const key of userInfo){
+    //   if(userInfo[key].length == 0 ){
+    //     filled = false;
+    //   }
+    // }
+
+
     if(confirmPassword === password){
       if(filled){
         signup(userInfo)
@@ -28,6 +37,7 @@ export default function SignUp() {
         setName("");
         setAddress("");
         setPhone("");
+        setOfficename("")
       } else {
         alert("Please make sure all fields are filled")
       }
@@ -43,13 +53,13 @@ export default function SignUp() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Register</Text>
         <TextInput value={email} placeholder="Email" style={styles.input} onChangeText={setEmail} />
         <TextInput value={password} placeholder="Password" style={styles.input} onChangeText={setPassword} secureTextEntry={true}  />
         <TextInput value={confirmPassword} placeholder="Confirm Password" style={styles.input} onChangeText={setConfirmPassword} secureTextEntry={true} />
         <TextInput value={name} placeholder="Name" style={styles.input} onChangeText={setName} />
         <TextInput value={phone} placeholder="Phone Number" style={styles.input} onChangeText={setPhone} />
-        <TextInput value={officeName} placeholder="Office Name" style={styles.input} onChangeText={setOfficeName} />
+        <TextInput value={officename} placeholder="Office Name" style={styles.input} onChangeText={setOfficename} />
         <TextInput value={address} placeholder="Office Address" style={styles.input} onChangeText={setAddress} />
         <Button title="Register" onPress={handleOnSubmit} />
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
@@ -72,9 +82,10 @@ const styles = StyleSheet.create({
     height: 1,
     width: '80%',
   },
-  input: { 
-      height: 40, 
-      borderColor: 'gray', 
-      borderWidth: 1, 
+  input: {
+    backgroundColor: "#fff", 
+    margin: 5,           
+    fontSize: 18,                
+    textAlign: 'center',    
     },
 });

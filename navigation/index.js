@@ -9,12 +9,13 @@ import BottomTabNavigatorLI from './BottomTabNavigatorLI';
 
 // If you are not familiar with React Navigation, we recommend going through the
 // "Fundamentals" guide: https://reactnavigation.org/docs/getting-started
-export default function Navigation({ colorScheme, user, logout, login, signUp}) {
+export default function Navigation({ colorScheme, user, logout, login, signup, token}) {
   return (
     <NavigationContainer
     theme={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       
-      {user ? LoggedInNavigator({user, logout}) : RootNavigator({login, signUp})}
+      
+      {user ? LoggedInNavigator({user, logout, token}) : RootNavigator({login, signup})}
     </NavigationContainer>
   );
 }
@@ -35,20 +36,20 @@ const Stack = createStackNavigator();
     
         
 
-function LoggedInNavigator({user, logout}) {
+function LoggedInNavigator({user, token, logout}) {
   return (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-<Stack.Screen name="Root" >{props => <BottomTabNavigatorLI user={user} logout={logout} />}</Stack.Screen>
+<Stack.Screen name="Root" >{props => <BottomTabNavigatorLI token={token} logout={logout} />}</Stack.Screen>
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
 }
 
-function RootNavigator({login, signUp}) {
+function RootNavigator({login, signup}) {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Root"  >{props => <BottomTabNavigator login={login} signUp={signUp} />}</Stack.Screen>
+    <Stack.Screen name="Root"  >{props => <BottomTabNavigator login={login} signup={signup} />}</Stack.Screen>
       <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );
