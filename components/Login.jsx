@@ -12,7 +12,7 @@ export default function Login({login}) {
 
     login({email, password})
     
-    setUsername("");
+    setEmail("");
     setPassword("");
   }
 
@@ -21,7 +21,7 @@ export default function Login({login}) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
-        <TextInput placeholder="Username" value={email} style={styles.input} onChangeText={setEmail} ></TextInput>
+        <TextInput placeholder="Email" value={email} style={styles.input} onChangeText={setEmail} ></TextInput>
         <TextInput placeholder="Password" value={password} style={styles.input} onChangeText={setPassword}></TextInput>
         <Button title="submit" onPress={handleOnSubmit}>Login</Button>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />

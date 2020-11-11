@@ -1,4 +1,3 @@
-import Urls from '../constants/Urls';
 
 export default function autoLogin(token){
     const reqObj = {
@@ -8,7 +7,7 @@ export default function autoLogin(token){
         }
       }
   
-      fetch(Urls.API+'/login', reqObj)
+      fetch('https://b0a2aeac3053.ngrok.io/login', reqObj)
         .then(response => response.json())
         .then(data =>  {
           if (data.error) {

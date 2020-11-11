@@ -5,30 +5,54 @@ import { AsyncStorage } from 'react-native'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/index';
-import autoLogin from './hooks/autoLogin'
-import Urls from './constants/Urls';
-import manualLogin from './hooks/manualLogin';
+// import autoLogin from './hooks/autoLogin'
+// import Urls from './constants/Urls';
+// import manualLogin from './hooks/manualLogin';
+// import register from './hooks/register'
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  const [user, setUser] = useState(true);
+  const [user, setUser] = useState(null);
+  const [token, setToken] = useState(null)
 
   useEffect(() => {
-   _retrieveToken()
+    const _retrieveToken =  async () => {
+      try {
+        const tk = await AsyncStorage.getItem("token")
+    
+        
+        if (tk !== null) {
+          setToken(tk)
+          const reqObj = {
+           method: "GET",
+           headers: {
+             "Authorization": `Bearer ${tk}`
+           }
+         }
+       
+         fetch('https://b0a2aeac3053.ngrok.io/login', reqObj)
+           .then(response => response.json())
+           .then(data =>  {
+             if (data.message) {
+               alert(data.message)
+             } else {
+               setUser(data)
+             }
+          });
+          
+        }
+      } catch (e) {
+        alert('Failed to fetch the data from storage')
+      }
+    
+    }
+
+    _retrieveToken()
   }, [])
 
-  const _retrieveToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem("token")
   
-      if (token !== null) {
-        setUser(autoLogin(token))
-      }
-    } catch (e) {
-      alert('Failed to fetch the data from storage')
-    }
-  }
+  
   const _storeToken = async (token) => {
     try {
       await AsyncStorage.setItem(
@@ -54,17 +78,48 @@ export default function App() {
   }
 
   const login = (userInfo) =>{
-    const data = manualLogin(userInfo)
+    const reqObj = {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+          user: userInfo
+      })
+    }
 
-    _storeToken(data.jwt)
-    setUser(data.user)
+  fetch("https://b0a2aeac3053.ngrok.io/auth", reqObj)
+      .then(response => response.json())
+      .then(data =>  {
+          if (data.message) {
+              alert(data.message)
+              } else {
+                _storeToken(data.jwt)
+                setUser(data.user)
+              }
+          
+      });
+
     
   }
 
-  const signUp = (userInfo) => {
-    const data = register(userInfo)
-    _storeToken(data.jwt)
-    setUser(data.user)
+  const signup = (userInfo) => {
+    const reqObj = {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+       user: userInfo
+      })
+  }
+
+    fetch("https://b0a2aeac3053.ngrok.io/users", reqObj)
+    .then(resp => resp.json())
+    .then(data => {
+        if (data.error){
+            alert(data.error)
+        } else {
+          _storeToken(data.jwt)
+          setUser(data.user)
+        }
+    })
   }
 
 
@@ -73,7 +128,7 @@ export default function App() {
   } else {
     return (
       <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} user={user} login={login} logout={logout} signUp={signUp} />
+        <Navigation colorScheme={colorScheme} user={user} login={login} logout={logout} signup={signup} token={token} />
         <StatusBar />
       </SafeAreaProvider>
     );

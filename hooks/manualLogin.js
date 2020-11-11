@@ -1,16 +1,14 @@
-import Urls from "../constants/Urls";
 
 export default function manualLogin(userInfo){
     const reqObj = {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
-            username: userInfo.username,
-            password: userInfo.password
+            userInfo
         })
     }
 
-    fetch(Urls.API+'/auth', reqObj)
+    fetch("https://b0a2aeac3053.ngrok.io/auth", reqObj)
         .then(response => response.json())
         .then(data =>  {
             if (data.message) {

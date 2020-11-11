@@ -10,7 +10,7 @@ import SignUpScreen from '../screens/SignUpScreen';
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigator({login, signUp}) {
+export default function BottomTabNavigator({login, signup}) {
   const colorScheme = useColorScheme();
 
 
@@ -25,7 +25,7 @@ export default function BottomTabNavigator({login, signUp}) {
       <BottomTab.Screen
         name="SignUp"
         >
-        {props => <TabTwoNavigator signUp={signUp} /> }
+        {props => <TabTwoNavigator signup={signup} /> }
         </BottomTab.Screen>
     </BottomTab.Navigator>
   );
@@ -58,14 +58,14 @@ function TabOneNavigator({login}) {
 
 const TabTwoStack = createStackNavigator();
 
-function TabTwoNavigator({signUp}) {
+function TabTwoNavigator({signup}) {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
         name="SignUpScreen"
         options={{ headerTitle: 'Sign Up' }}
       >
-        {props => <SignUpScreen signUp={signUp} />}
+        {props => <SignUpScreen signup={signup} />}
       </TabTwoStack.Screen>
     </TabTwoStack.Navigator>
   );
