@@ -7,6 +7,7 @@ import Urls from '../constants/Urls';
 export default function Upload({token}) {
 
     const [images, setImages] = useState([]);
+    const [uris, setUris] = useState([])
     const [message, setMessage] = useState("");
     const [address, setAddress] = useState("");
     const [billing, setBilling] = useState("");
@@ -26,13 +27,24 @@ export default function Upload({token}) {
     }, []);
 
     const handleOnSubmit = () => {
+
+        // const formData = new FormData();
         
+        // images.forEach(image => {
+        //     formData.append("post[images[]]", images)
+        // })
+
+        // formData.append("post[message]", message)
+        // formData.append("[contact]", contact)
+        // formData.append("[billing]", billing)
+        // formData.append("[address]", address)
+
 
         const reqObj = {
             method: "POST",
             headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${token}`
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 post: {
@@ -50,6 +62,7 @@ export default function Upload({token}) {
         .then(data => {
             alert(data.message)
             setImages([])
+            setUris([])
             setMessage("");
         })
         
@@ -60,20 +73,25 @@ export default function Upload({token}) {
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
+        base64: true,
         aspect: [4, 3],
         quality: 1,
         });
         if (!result.cancelled) {
-            const pics = Object.assign([], images)
+            const imgs = [].concat(images)
+            imgs.push(result.base64)
+            setImages(imgs);
+      
+            const pics = [].concat(uris)
             pics.push(result.uri)
-            setImages(pics);
+            setUris(pics);
         }
     };
 
     const renderImages = () => {
-        return images.map(image => {
+        return uris.map(uri => {
                 return (<Image
-                source={{ uri: image }}
+                source={{ uri: uri}}
                 style={{ width: 50, height: 50}}
             />)})
     }
