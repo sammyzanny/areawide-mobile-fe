@@ -2,7 +2,6 @@ import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, TextInput, Button, Image, Platform } from 'react-native';
 import { Text, View } from './Themed';
-import Urls from '../constants/Urls';
 
 export default function Upload({token}) {
 
@@ -91,6 +90,7 @@ export default function Upload({token}) {
     const renderImages = () => {
         return uris.map(uri => {
                 return (<Image
+                key={uri}
                 source={{ uri: uri}}
                 style={{ width: 50, height: 50}}
             />)})
