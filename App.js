@@ -59,6 +59,7 @@ export default function App() {
         'token',
         token
       );
+      
     } catch (error) {
       alert('Failed to store data from storage')
     }
@@ -93,6 +94,7 @@ export default function App() {
               alert(data.message)
               } else {
                 _storeToken(data.jwt)
+                setToken(data.jwt)
                 setUser(data.user)
               }
           

@@ -1,5 +1,6 @@
 {
   "expo": {
+    "scheme": "areawide-mobile",
     "name": "areawide-mobile-fe",
     "slug": "areawide-mobile-fe",
     "version": "1.0.0",
