@@ -76,6 +76,7 @@ export default function Upload({token}) {
         aspect: [4, 3],
         quality: 1,
         });
+        console.log(result)
         if (!result.cancelled) {
             const imgs = [].concat(images)
             imgs.push(result.base64)
