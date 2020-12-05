@@ -6,23 +6,24 @@ import * as React from 'react';
 import Colors from '../constants/Colors';
 import useColorScheme from '../hooks/useColorScheme';
 import UploadScreen from '../screens/UploadScreen';
-import LogoutScreen from '../screens/LogoutScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const BottomTab = createBottomTabNavigator();
 
-export default function BottomTabNavigatorLI({token, logout}) {
+export default function BottomTabNavigatorLI({user, token, logout}) {
   const colorScheme = useColorScheme();
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      cardStyle={{backgroundColor: 'transperent'}}>
       <BottomTab.Screen
         name="Upload" 
         >{props => <TabOneNavigator token={token}/>}
         </BottomTab.Screen>
       <BottomTab.Screen
-        name="Logout"
-        >{props => <TabTwoNavigator logout={logout} />}
+        name="Profile"
+        >{props => <TabTwoNavigator user={user} logout={logout} token={token}/>}
         </BottomTab.Screen>
     </BottomTab.Navigator>
   );
@@ -44,7 +45,7 @@ const TabOneStack = createStackNavigator();
 function TabOneNavigator({token}) {
 
   return (
-    <TabOneStack.Navigator>
+    <TabOneStack.Navigator screenOptions={{cardStyle: {backgroundColor: 'transparent'}}}>
       <TabOneStack.Screen
         name="UploadScreen"
         options={{ headerTitle: 'Upload Crack' }}
@@ -56,14 +57,14 @@ function TabOneNavigator({token}) {
 
 const TabTwoStack = createStackNavigator();
 
-function TabTwoNavigator({logout}) {
+function TabTwoNavigator({user, logout, token}) {
 
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="LogoutScreen"
-        options={{ headerTitle: 'Sign Out' }}
-        >{props => <LogoutScreen logout={logout} />}
+        name="ProfileScreen"
+        options={{ headerTitle: 'Profile' }}
+        >{props => <ProfileScreen user={user} logout={logout} token={token}/>}
         </TabTwoStack.Screen>
     </TabTwoStack.Navigator>
   );

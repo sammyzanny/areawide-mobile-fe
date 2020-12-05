@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TextInput } from 'react-native';
+import { StyleSheet, Button, TextInput, TouchableOpacity } from 'react-native';
 
 import { Text, View} from './Themed';
 
@@ -50,10 +50,18 @@ export default function Login({login}) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-        <TextInput placeholder="Email" value={email} style={styles.input} onChangeText={setEmail} ></TextInput>
+        <View style={styles.separator} />
+        <View style={styles.separator} />
+        <TextInput placeholder="Email" value={email} style={styles.input} onChangeText={e => setEmail(e.toLowerCase())} ></TextInput>
         <TextInput placeholder="Password" value={password} style={styles.input} onChangeText={setPassword}></TextInput>
-        <Button title="Submit" onPress={handleOnSubmit}>Login</Button>
+        <View style={styles.separator} />
+        <TouchableOpacity
+          title="Submit"
+          style={styles.submitButton}
+          onPress={handleOnSubmit}
+          underlayColor='#fff'>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
       <Button title="Forgot Password?" onPress={forgotPassword} />
     </View>
@@ -77,8 +85,26 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: "#fff", 
-    margin: 5,           
-    fontSize: 18,                
-    textAlign: 'center',          
-    }
+    margin: 15,
+    fontSize: 18,
+    textAlign: 'left',
+    width: 250,
+    height: 50,
+    },
+    submitButton:{
+      marginRight:40,
+      marginLeft:40,
+      paddingVertical: 10,
+      paddingHorizontal: 10,
+      backgroundColor:'green',
+      borderRadius:10,
+      borderWidth: 1,
+      borderColor: '#fff'
+    },
+    buttonText:{
+      color:'#fff',
+      textAlign:'center',
+      paddingLeft: 10,
+      paddingRight: 10,
+  },
 });

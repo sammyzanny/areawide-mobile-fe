@@ -1,10 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AsyncStorage } from 'react-native'
+import { AsyncStorage, ImageBackground } from 'react-native'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/index';
+import image from './assets/house-underwater-lg.jpg'
 // import autoLogin from './hooks/autoLogin'
 // import Urls from './constants/Urls';
 // import manualLogin from './hooks/manualLogin';
@@ -37,7 +38,7 @@ export default function App() {
              if (data.message) {
                alert(data.message)
              } else {
-               setUser(data)
+               setUser(data.user)
              }
           });
           

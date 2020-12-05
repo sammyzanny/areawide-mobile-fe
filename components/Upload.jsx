@@ -1,12 +1,12 @@
 import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, TextInput, Button, Image, Platform } from 'react-native';
+import { StyleSheet, TextInput, Button, Image, Platform, TouchableOpacity } from 'react-native';
+import vidpic from '../assets/film.png'
 import { Text, View } from './Themed';
 
 export default function Upload({token}) {
 
     const [images, setImages] = useState([]);
-    const [uris, setUris] = useState([])
     const [message, setMessage] = useState("");
     const [address, setAddress] = useState("");
     const [billing, setBilling] = useState("");
@@ -27,85 +27,101 @@ export default function Upload({token}) {
 
     const handleOnSubmit = () => {
 
-        // const formData = new FormData();
+        const formData = new FormData();
         
-        // images.forEach(image => {
-        //     formData.append("post[images[]]", images)
-        // })
+        images.forEach(image => {
+            const uri = image.uri;
+            const uriParts = uri.split('.');
+            const fileType = uriParts[uriParts.length - 1];
 
-        // formData.append("post[message]", message)
-        // formData.append("[contact]", contact)
-        // formData.append("[billing]", billing)
-        // formData.append("[address]", address)
+            formData.append("post[images][]", {uri, name: `upload.${fileType}`, type: image.type + '/' + fileType } )
+        })
+
+       
+        formData.append("post[message]", message)
+        formData.append("post[contact]", contact)
+        formData.append("post[billing]", billing)
+        formData.append("post[address]", address)
 
 
         const reqObj = {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
                 "Authorization": `Bearer ${token}`
             },
-            body: JSON.stringify({
-                post: {
-                    images,
-                    message,
-                    contact,
-                    billing,
-                    address
-                }
-            })
+            body: formData
         }
+
+
+        console.log(formData)
 
         fetch('https://b0a2aeac3053.ngrok.io/posts', reqObj)
         .then(resp => resp.json())
         .then(data => {
             alert(data.message)
             setImages([])
-            setUris([])
             setMessage("");
+            setAddress("");
+            setBilling("");
+            setContact("");
         })
         
 
     }
 
     const pickImage = async () => {
+        if(images.length === 12){
+            alert("Only 12 images max")
+            return
+        }
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
-        base64: true,
         aspect: [4, 3],
         quality: 1,
         });
-        console.log(result)
         if (!result.cancelled) {
             const imgs = [].concat(images)
-            imgs.push(result.base64)
+            imgs.push(result)
             setImages(imgs);
-      
-            const pics = [].concat(uris)
-            pics.push(result.uri)
-            setUris(pics);
         }
     };
 
     const renderImages = () => {
-        return uris.map(uri => {
+        return images.map(image => {
+            if (image.type == 'video'){
                 return (<Image
-                key={uri}
-                source={{ uri: uri}}
-                style={{ width: 50, height: 50}}
+                    key={image.uri}
+                    source={vidpic}
+                    style={{ width: 70, height: 70, marginLeft: 10, marginBottom: 10}}
+                />)
+            }
+                return (<Image
+                key={image.uri}
+                source={{ uri: image.uri}}
+                style={{ width: 70, height: 70, marginLeft: 10, marginBottom: 10}}
             />)})
+    }
+
+    const clearImages = () => {
+        setImages([])
     }
   
 
     return (
-        <View >
-            <Text style={styles.title}>Upload multiple images/videos</Text>
-            {renderImages()}
+        <View style={styles.container} >
+            <View style={styles.imgcont}>
+                {renderImages()}
+            </View>
+            <TouchableOpacity
+                style={styles.clearButton}
+                onPress={clearImages}
+                underlayColor='#fff'>
+                <Text style={styles.uploadText}>Clear Images</Text>
+             </TouchableOpacity>
             <TextInput 
                 placeholder="Message" 
                 style={styles.submission}
-                
                 value={message} 
                 onChangeText={setMessage} />
             <TextInput 
@@ -123,8 +139,19 @@ export default function Upload({token}) {
                 style={styles.submission}
                 value={contact} 
                 onChangeText={setContact} />
-            <Button title="Choose Image" onPress={pickImage} />
-            <Button title="Submit" onPress={handleOnSubmit} />
+            <TouchableOpacity
+                style={styles.chooseImageButton}
+                onPress={pickImage}
+                underlayColor='#fff'>
+                <Text style={styles.uploadText}>Choose Images</Text>
+             </TouchableOpacity>
+             <TouchableOpacity
+                title="Submit"
+                style={styles.submitButton}
+                onPress={handleOnSubmit}
+                underlayColor='#fff'>
+                <Text style={styles.uploadText}>Submit</Text>
+             </TouchableOpacity>
             <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         </View>
     );
@@ -135,10 +162,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'transparent'
   },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    backgroundColor: 'transparent'
   },
   separator: {
     marginVertical: 30,
@@ -147,12 +176,55 @@ const styles = StyleSheet.create({
   },
   submission: {
       backgroundColor: "#fff", 
-      margin: 24,
+       margin: 15,
       fontSize: 18,
-      textAlign: 'center',
+      textAlign: 'left',
       width: 250,
-      height: 50
-    }
+      height: 50,
+    },
+    chooseImageButton:{
+        marginRight:40,
+        marginLeft:40,
+       marginTop:10,
+        paddingTop:10,
+        paddingBottom:10,
+        backgroundColor:'#05759e',
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff'
+      },
+    submitButton:{
+        marginRight:40,
+        marginLeft:40,
+       marginTop:10,
+        paddingTop:10,
+        paddingBottom:10,
+        backgroundColor:'#173F5F',
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff'
+      },
+      uploadText:{
+          color:'#fff',
+          textAlign:'center',
+          paddingLeft : 10,
+          paddingRight : 10
+      },
+      imgcont: {
+        margin: 10,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        backgroundColor: 'transparent'
+      },
+      clearButton:{
+        marginRight:40,
+        marginLeft:40,
+       marginTop:10,
+        backgroundColor:'red',
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff'
+      },
 });
 // multiline = {true}
 // numberOfLines = {4} 
