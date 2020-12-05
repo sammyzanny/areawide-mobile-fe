@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, TextInput, Button, Image, Platform, TouchableOpacity } from 'react-native';
+import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, CheckBox, Switch} from 'react-native';
 import vidpic from '../assets/film.png'
 import { Text, View } from './Themed';
 
@@ -11,6 +11,7 @@ export default function Upload({token}) {
     const [address, setAddress] = useState("");
     const [billing, setBilling] = useState("");
     const [contact, setContact] = useState("");
+    const [isSelected, setSelection] = useState(false);
 
 
 
@@ -26,6 +27,9 @@ export default function Upload({token}) {
     }, []);
 
     const handleOnSubmit = () => {
+        if(isSelected){
+            setBilling(address)
+        }
 
         const formData = new FormData();
         
@@ -53,7 +57,6 @@ export default function Upload({token}) {
         }
 
 
-        console.log(formData)
 
         fetch('https://b0a2aeac3053.ngrok.io/posts', reqObj)
         .then(resp => resp.json())
@@ -125,20 +128,36 @@ export default function Upload({token}) {
                 value={message} 
                 onChangeText={setMessage} />
             <TextInput 
-                placeholder="Client Address" 
-                style={styles.submission}
-                value={address} 
-                onChangeText={setAddress} />
-            <TextInput 
-                placeholder="Client Billing Address" 
-                style={styles.submission}
-                value={billing} 
-                onChangeText={setBilling} />
-            <TextInput 
                 placeholder="Client Contact Info" 
                 style={styles.submission}
                 value={contact} 
                 onChangeText={setContact} />
+            <TextInput 
+                placeholder="Client Address" 
+                style={styles.submission}
+                value={address} 
+                onChangeText={setAddress} />
+                {isSelected ? null : 
+            <TextInput 
+                placeholder="Client Billing Address" 
+                style={styles.submission}
+                value={billing} 
+                onChangeText={setBilling} />}
+            <View style={styles.checkboxContainer}>
+            <Switch
+                trackColor={{ false: "#767577", true: "#05759e" }}
+                thumbColor={isSelected ? "#173F5F" : "#f4f3f4"}
+                ios_backgroundColor="#3e3e3e"
+                onValueChange={setSelection}
+                value={isSelected}
+            />
+                {/* Android <CheckBox
+                value={isSelected}
+                onValueChange={setSelection}
+                style={styles.checkbox}
+                /> */}
+                <Text style={styles.label}>Same address?</Text>
+            </View>
             <TouchableOpacity
                 style={styles.chooseImageButton}
                 onPress={pickImage}
@@ -185,7 +204,7 @@ const styles = StyleSheet.create({
     chooseImageButton:{
         marginRight:40,
         marginLeft:40,
-       marginTop:10,
+        marginTop:10,
         paddingTop:10,
         paddingBottom:10,
         backgroundColor:'#05759e',
@@ -196,7 +215,7 @@ const styles = StyleSheet.create({
     submitButton:{
         marginRight:40,
         marginLeft:40,
-       marginTop:10,
+        marginTop:10,
         paddingTop:10,
         paddingBottom:10,
         backgroundColor:'#173F5F',
@@ -224,6 +243,19 @@ const styles = StyleSheet.create({
         borderRadius:10,
         borderWidth: 1,
         borderColor: '#fff'
+      },
+      checkboxContainer: {
+        flexDirection: "row",
+        marginBottom: 20,
+      },
+      checkbox: {
+        alignSelf: "center",
+        height: 30,
+        width: 30,
+        borderColor: 'white'
+      },
+      label: {
+        margin: 8,
       },
 });
 // multiline = {true}
