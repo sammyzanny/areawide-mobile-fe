@@ -1,16 +1,15 @@
 import * as React from 'react';
 import { StyleSheet, Button } from 'react-native';
 
-import Logout from '../components/Logout';
+import Profile from '../components/Profile';
 import { View } from '../components/Themed';
 
-export default function LogoutScreen({logout}) {
+export default function ProfileScreen({user, logout, token}) {
 
 
   return (
     <View style={styles.container}>
-      <Logout logout={logout} />
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+      <Profile logout={logout} user={user} token={token} />
     </View>
   );
 }

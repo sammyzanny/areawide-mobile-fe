@@ -60,10 +60,10 @@ const Stack = createStackNavigator();
 
         
 
-function LoggedInNavigator({token, logout}) {
+function LoggedInNavigator({user, token, logout}) {
   return (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-  <Stack.Screen name="Root" >{props => <BottomTabNavigatorLI token={token} logout={logout} />}</Stack.Screen>
+  <Stack.Navigator screenOptions={{ headerShown: false, cardStyle: {backgroundColor: 'transparent'}}} >
+  <Stack.Screen name="Root" >{props => <BottomTabNavigatorLI user={user} token={token} logout={logout} />}</Stack.Screen>
   <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );

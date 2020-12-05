@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Button, ImageBackground } from 'react-native';
-
+import image from '../assets/house-underwater-lg.jpg'
 import Upload from '../components/Upload';
 import { Text, View } from '../components/Themed';
 
@@ -10,9 +10,9 @@ export default function TabOneScreen({token}) {
   return (
     
     <View style={styles.container}>
+      <ImageBackground source={image} style={styles.image} >
       <Upload token={token}/>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-    
+      </ ImageBackground >
     </View>
   );
 }
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: 'transparent'
   },
   title: {
     fontSize: 20,
@@ -31,5 +32,11 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  image: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'cover',
+    justifyContent: 'center',
   },
 });
