@@ -1,3 +1,4 @@
+import Urls from './constants/Urls';
 
 export default function manualLogin(userInfo){
     const reqObj = {
@@ -8,7 +9,7 @@ export default function manualLogin(userInfo){
         })
     }
 
-    fetch("https://b0a2aeac3053.ngrok.io/auth", reqObj)
+    fetch(Urls.API + "/auth", reqObj)
         .then(response => response.json())
         .then(data =>  {
             if (data.message) {

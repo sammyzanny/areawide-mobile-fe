@@ -5,6 +5,7 @@ import * as Linking from 'expo-linking'
 import NotFoundScreen from '../screens/NotFoundScreen';
 import BottomTabNavigator from './BottomTabNavigator';
 import BottomTabNavigatorLI from './BottomTabNavigatorLI';
+import ResetPassword from '../components/ResetPassword'
 // import LinkingConfiguration from './LinkingConfiguration';
 
 // If you are not familiar with React Navigation, we recommend going through the
@@ -18,7 +19,7 @@ export default function Navigation({ colorScheme, user, logout, login, signup, t
   const { getInitialState } = useLinking(ref, {
     prefixes: [prefix],
     config: {
-      ResetPassword: "resetPassword/:email/:code"
+      ResetPassword: "resetPassword/:email/:token"
     }
   });
 
@@ -74,7 +75,7 @@ function RootNavigator({login, signup}) {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Root"  >{props => <BottomTabNavigator login={login} signup={signup} />}</Stack.Screen>
-    <Stack.Screen name="ResetPassword" >{props => <ResetPassword />}</Stack.Screen>
+    <Stack.Screen name="ResetPassword" component={ResetPassword} />
     <Stack.Screen name="NotFound" component={NotFoundScreen} options={{ title: 'Oops!' }} />
     </Stack.Navigator>
   );

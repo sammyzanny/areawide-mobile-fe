@@ -3,6 +3,7 @@ import React, { useState, useEffect} from 'react';
 import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, CheckBox, Switch} from 'react-native';
 import vidpic from '../assets/film.png'
 import { Text, View } from './Themed';
+import Urls from '../constants/Urls';
 
 export default function Upload({token}) {
 
@@ -12,6 +13,7 @@ export default function Upload({token}) {
     const [billing, setBilling] = useState("");
     const [contact, setContact] = useState("");
     const [isSelected, setSelection] = useState(false);
+    const [isUploading, setUploading] = useState(false);
 
 
 
@@ -58,7 +60,7 @@ export default function Upload({token}) {
 
 
 
-        fetch('https://b0a2aeac3053.ngrok.io/posts', reqObj)
+        fetch(Urls.API + '/posts', reqObj)
         .then(resp => resp.json())
         .then(data => {
             alert(data.message)
@@ -77,11 +79,13 @@ export default function Upload({token}) {
             alert("Only 12 images max")
             return
         }
+
         let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.All,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 1,
+        videoMaxDuration: 30
         });
         if (!result.cancelled) {
             const imgs = [].concat(images)
@@ -109,6 +113,11 @@ export default function Upload({token}) {
     const clearImages = () => {
         setImages([])
     }
+
+    if(isUploading){
+        return (<Text style={styles.title} >Loading...</Text>)
+
+    }
   
 
     return (
@@ -120,7 +129,7 @@ export default function Upload({token}) {
                 style={styles.clearButton}
                 onPress={clearImages}
                 underlayColor='#fff'>
-                <Text style={styles.uploadText}>Clear Images</Text>
+                <Text style={styles.uploadText}>Clear Images/Videos</Text>
              </TouchableOpacity>
             <TextInput 
                 placeholder="Message" 
@@ -162,7 +171,7 @@ export default function Upload({token}) {
                 style={styles.chooseImageButton}
                 onPress={pickImage}
                 underlayColor='#fff'>
-                <Text style={styles.uploadText}>Choose Images</Text>
+                <Text style={styles.uploadText}>Choose Images/Videos</Text>
              </TouchableOpacity>
              <TouchableOpacity
                 title="Submit"
