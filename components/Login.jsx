@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Button, TextInput, TouchableOpacity } from 'react-native';
+import Urls from '../constants/Urls';
 
 import { Text, View} from './Themed';
 
@@ -36,7 +37,7 @@ export default function Login({login}) {
     })
   }
 
-  fetch('https://b0a2aeac3053.ngrok.io/forgotpassword', reqObj)
+  fetch(Urls.API + '/forgotpassword', reqObj)
   .then(resp => resp.json())
   .then(data => {
       alert(data.message)

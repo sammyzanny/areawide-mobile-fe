@@ -5,9 +5,8 @@ import { AsyncStorage, ImageBackground } from 'react-native'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/index';
-import image from './assets/house-underwater-lg.jpg'
 // import autoLogin from './hooks/autoLogin'
-// import Urls from './constants/Urls';
+import Urls from './constants/Urls';
 // import manualLogin from './hooks/manualLogin';
 // import register from './hooks/register'
 
@@ -15,7 +14,9 @@ export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState(null);
+
+  console.log(Urls.API)
 
   useEffect(() => {
     const _retrieveToken =  async () => {
@@ -32,7 +33,7 @@ export default function App() {
            }
          }
        
-         fetch('https://b0a2aeac3053.ngrok.io/login', reqObj)
+         fetch(Urls.API + '/login', reqObj)
            .then(response => response.json())
            .then(data =>  {
              if (data.message) {
@@ -88,7 +89,7 @@ export default function App() {
       })
     }
 
-  fetch("https://b0a2aeac3053.ngrok.io/auth", reqObj)
+  fetch(Urls.API + "/auth", reqObj)
       .then(response => response.json())
       .then(data =>  {
           if (data.message) {
@@ -113,7 +114,7 @@ export default function App() {
       })
   }
 
-    fetch("https://b0a2aeac3053.ngrok.io/users", reqObj)
+    fetch(Urls.API + "/users", reqObj)
     .then(resp => resp.json())
     .then(data => {
         if (data.error){

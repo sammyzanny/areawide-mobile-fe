@@ -1,3 +1,4 @@
+import Urls from './constants/Urls';
 
 
 
@@ -11,7 +12,7 @@ export default function register(userInfo){
         })
     }
 
-    fetch("https://b0a2aeac3053.ngrok.io/users", reqObj)
+    fetch(Urls.API + "/users", reqObj)
     .then(resp => resp.json())
     .then(data => {
         console.log(data)

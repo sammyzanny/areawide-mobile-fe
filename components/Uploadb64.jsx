@@ -2,6 +2,7 @@ import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
 import { StyleSheet, TextInput, Button, Image, Platform } from 'react-native';
 import { Text, View } from './Themed';
+import Urls from '../constants/Urls';
 
 export default function Upload({token}) {
 
@@ -56,7 +57,7 @@ export default function Upload({token}) {
             })
         }
 
-        fetch('https://b0a2aeac3053.ngrok.io/posts', reqObj)
+        fetch(Urls.API + '/posts', reqObj)
         .then(resp => resp.json())
         .then(data => {
             alert(data.message)

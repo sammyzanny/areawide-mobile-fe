@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-
+import Urls from '../constants/Urls'
 import { Text, View } from './Themed';
 
 export default function Profile({user, logout, token}) {
@@ -27,7 +27,7 @@ export default function Profile({user, logout, token}) {
       })
     }
 
-    fetch(`https://b0a2aeac3053.ngrok.io/users/${user.id}`, reqObj)
+    fetch(Urls.API + `/users/${user.id}`, reqObj)
     .then(resp => resp.json())
     .then(data => {
         if (data.error){

@@ -1,3 +1,3 @@
 export default {
-    API: "http://localhost:3000"
+    API: "https://b0a2aeac3053.ngrok.io"
 }

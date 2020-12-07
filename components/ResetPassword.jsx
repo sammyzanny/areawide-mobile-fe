@@ -1,15 +1,14 @@
 import * as React from 'react';
-import { StyleSheet, Button } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import Urls from '../constants/Urls';
 
-import Logout from './Logout';
 import { View, TextInput } from './Themed';
 
-export const ResetPassword = ({navigation, route}) => {
-
-
-    const {token, email} = route.params;
-    const [newPassword, setNewPassword]
-    const [confirmPassward, setConfirmPassword] = React.useState("");
+export default function ResetPassword({navigation, route}) {
+  
+  const {token, email} = route.params;
+    const [newPassword, setNewPassword] = React.useState("")
+    const [confirmPassword, setConfirmPassword] = React.useState("");
   
     const handleOnSubmit = () => {
       
@@ -20,15 +19,16 @@ export const ResetPassword = ({navigation, route}) => {
         },
         body: JSON.stringify({
           email,
-           token
+           token,
+           password: newPassword
         })
       }
     
-      fetch('https://b0a2aeac3053.ngrok.io/resetpassword', reqObj)
+      fetch(Urls.API + '/resetpassword', reqObj)
       .then(resp => resp.json())
       .then(data => {
         alert(data.message);
-        navigation.navigate('Home');
+        navigation.navigate('Root');
       })
     }
   
@@ -36,11 +36,18 @@ export const ResetPassword = ({navigation, route}) => {
   
     return (
       <View style={styles.container}>
-        <Text style={styles.title}>Login</Text>
-          <TextInput placeholder="Email" value={email} style={styles.input} onChangeText={setEmail} ></TextInput>
-          <TextInput placeholder="Password" value={password} style={styles.input} onChangeText={setPassword}></TextInput>
-          <Button title="Set New" onPress={handleOnSubmit}></Button>
+        <Text style={styles.title} >Reset Password</Text> 
+        <View style={styles.separator} />
+        <TextInput placeholder="New Password" value={newPassword} style={styles.input} onChangeText={setNewPassword}></TextInput>
+        <TextInput placeholder="Confirm New Password" value={confirmPassword} style={styles.input} onChangeText={setConfirmPassword} ></TextInput>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+        <TouchableOpacity
+          title="Submit"
+          style={styles.submitButton}
+          onPress={handleOnSubmit}
+          underlayColor='#fff'>
+          <Text style={styles.buttonText}>Submit</Text>
+        </TouchableOpacity>       
       </View>
     );
   }
@@ -54,6 +61,7 @@ export const ResetPassword = ({navigation, route}) => {
     title: {
       fontSize: 20,
       fontWeight: 'bold',
+      color: 'white'
     },
     separator: {
       marginVertical: 30,
@@ -62,9 +70,27 @@ export const ResetPassword = ({navigation, route}) => {
     },
     input: {
       backgroundColor: "#fff", 
-      margin: 5,           
-      fontSize: 18,                
-      textAlign: 'center',          
-      }
+      margin: 15,
+      fontSize: 18,
+      textAlign: 'left',
+      width: 250,
+      height: 50,
+      },
+      submitButton:{
+        marginRight:40,
+        marginLeft:40,
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+        backgroundColor:'red',
+        borderRadius:10,
+        borderWidth: 1,
+        borderColor: '#fff'
+      },
+      buttonText:{
+        color:'#fff',
+        textAlign:'center',
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
   });
   
