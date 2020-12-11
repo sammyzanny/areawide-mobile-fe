@@ -16,8 +16,6 @@ export default function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
 
-  console.log(Urls.API)
-
   useEffect(() => {
     const _retrieveToken =  async () => {
       try {
