@@ -21,11 +21,12 @@ export default function SignUp({signup}) {
     
     let filled = true;
 
-    // for(const key of userInfo){
-    //   if(userInfo[key].length == 0 ){
-    //     filled = false;
-    //   }
-    // }
+    for(const key of userInfo){
+      if(userInfo[key].length == 0 ){
+        filled = false;
+      }
+    }
+    
     function hasNumber(myString) {
       return /\d/.test(myString);
     }

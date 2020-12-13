@@ -7,10 +7,24 @@ import { View, TextInput } from './Themed';
 export default function ResetPassword({navigation, route}) {
   
   const {token, email} = route.params;
-    const [newPassword, setNewPassword] = React.useState("")
+    const [password, setPassword] = React.useState("")
     const [confirmPassword, setConfirmPassword] = React.useState("");
   
     const handleOnSubmit = () => {
+
+      function hasNumber(myString) {
+        return /\d/.test(myString);
+      }
+  
+      if(password.length < 8 || !hasNumber(password)){
+        alert("Password must be at least 8 characters long and have at least one number")
+        return
+      } 
+
+      if(password !== confirmPassword){
+        alert("Passwords do not match")
+        return
+      }
       
       const reqObj = {
         method: "POST",
@@ -20,7 +34,7 @@ export default function ResetPassword({navigation, route}) {
         body: JSON.stringify({
           email,
            token,
-           password: newPassword
+           password
         })
       }
     
@@ -38,7 +52,7 @@ export default function ResetPassword({navigation, route}) {
       <View style={styles.container}>
         <Text style={styles.title} >Reset Password</Text> 
         <View style={styles.separator} />
-        <TextInput placeholder="New Password" value={newPassword} style={styles.input} onChangeText={setNewPassword}></TextInput>
+        <TextInput placeholder="New Password" value={password} style={styles.input} onChangeText={setPassword}></TextInput>
         <TextInput placeholder="Confirm New Password" value={confirmPassword} style={styles.input} onChangeText={setConfirmPassword} ></TextInput>
         <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
         <TouchableOpacity

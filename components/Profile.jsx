@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
 import Urls from '../constants/Urls'
-import { Text, View } from './Themed';
+import { View } from './Themed';
 
 export default function Profile({user, logout, token}) {
 
@@ -48,13 +48,13 @@ export default function Profile({user, logout, token}) {
     <View style={styles.container}>
       <Text style={styles.title}>Edit Profile</Text>
       <View style={styles.separator} />
-      <Text >Name:</Text>
+      <Text style={styles.label} >Name:</Text>
       <TextInput value={name} placeholder="Name" style={styles.input} onChangeText={setName} />
-      <Text >Phone Number:</Text>
+      <Text style={styles.label} >Phone Number:</Text>
       <TextInput value={phone} placeholder="Phone Number" style={styles.input} onChangeText={setPhone} />
-      <Text >Office Name:</Text>
+      <Text style={styles.label} >Office Name:</Text>
       <TextInput value={officename} placeholder="Office Name" style={styles.input} onChangeText={setOfficename} />
-      <Text >Office Address:</Text>
+      <Text style={styles.label} >Office Address:</Text>
       <TextInput value={address} placeholder="Office Address" style={styles.input} onChangeText={setAddress} />
       <TouchableOpacity
         style={styles.updateButton}
@@ -82,6 +82,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: 'bold',
+    color: 'white'
   },
   separator: {
     marginVertical: 15,
@@ -124,4 +125,7 @@ const styles = StyleSheet.create({
       borderWidth: 1,
       borderColor: '#fff'
     },
+    label: {
+      color: 'white'
+    }
 });

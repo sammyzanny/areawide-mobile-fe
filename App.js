@@ -5,16 +5,15 @@ import { AsyncStorage, ImageBackground } from 'react-native'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/index';
-// import autoLogin from './hooks/autoLogin'
 import Urls from './constants/Urls';
-// import manualLogin from './hooks/manualLogin';
-// import register from './hooks/register'
+
 
 export default function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
+  const [isReady, setReady]= useState(false)
 
   useEffect(() => {
     const _retrieveToken =  async () => {
@@ -39,6 +38,7 @@ export default function App() {
              } else {
                setUser(data.user)
              }
+             setReady(true)
           });
           
         }
@@ -125,7 +125,7 @@ export default function App() {
   }
 
 
-  if (!isLoadingComplete) {
+  if (!isReady) {
     return null;
   } else {
     return (

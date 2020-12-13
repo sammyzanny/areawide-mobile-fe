@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, Button } from 'react-native';
-
+import { StyleSheet, ImageBackground } from 'react-native';
+import image from '../assets/house-underwater-lg.jpg'
 import Profile from '../components/Profile';
 import { View } from '../components/Themed';
 
@@ -9,7 +9,9 @@ export default function ProfileScreen({user, logout, token}) {
 
   return (
     <View style={styles.container}>
-      <Profile logout={logout} user={user} token={token} />
+      <ImageBackground style={styles.image} source={image} >
+        <Profile logout={logout} user={user} token={token} />
+      </ImageBackground>
     </View>
   );
 }
@@ -28,5 +30,11 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     height: 1,
     width: '80%',
+  },
+  image: {
+    height: '100%',
+    width: '100%',
+    resizeMode: 'cover',
+    justifyContent: 'center',
   },
 });

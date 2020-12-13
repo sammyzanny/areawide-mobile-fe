@@ -1,9 +1,10 @@
 import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, CheckBox, Switch} from 'react-native';
+import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, ActivityIndicator, Switch} from 'react-native';
 import vidpic from '../assets/film.png'
 import { Text, View } from './Themed';
 import Urls from '../constants/Urls';
+import Layout from '../constants/Layout'
 
 export default function Upload({token}) {
 
@@ -33,6 +34,23 @@ export default function Upload({token}) {
             setBilling(address)
         }
 
+        // const uploadInfo = {message, address, contact, billing}
+        
+        let filled = true;
+        
+        // for(const key of uploadInfo){
+        //     if(uploadInfo[key].length == 0 ){
+        //         filled = false;
+        //     }
+        // }
+
+        if(!filled){
+            alert("Please fill out all upload fields")
+            return
+        }
+        
+        
+        setUploading(true)
         const formData = new FormData();
         
         images.forEach(image => {
@@ -69,6 +87,7 @@ export default function Upload({token}) {
             setAddress("");
             setBilling("");
             setContact("");
+            setUploading(false)
         })
         
 
@@ -115,8 +134,7 @@ export default function Upload({token}) {
     }
 
     if(isUploading){
-        return (<Text style={styles.title} >Loading...</Text>)
-
+        return  <ActivityIndicator size="large" color='#42f5f5' />
     }
   
 
@@ -265,6 +283,7 @@ const styles = StyleSheet.create({
       },
       label: {
         margin: 8,
+        color: 'white'
       },
 });
 // multiline = {true}

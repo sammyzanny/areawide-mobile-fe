@@ -48,7 +48,7 @@ function TabOneNavigator({token}) {
     <TabOneStack.Navigator screenOptions={{cardStyle: {backgroundColor: 'transparent'}}}>
       <TabOneStack.Screen
         name="UploadScreen"
-        options={{ headerTitle: 'Upload Crack' }}
+        options={{ headerTitle: 'Upload Media' }}
         >{props => <UploadScreen token={token} />}
         </TabOneStack.Screen>
     </TabOneStack.Navigator>
