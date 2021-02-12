@@ -3,11 +3,11 @@
     "scheme": "areawide-mobile",
     "name": "The Crack App: For Realtors",
     "slug": "areawide-mobile-fe",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/Crack-App-Icon.jpg",
+      "image": "./assets/AreaWide.jpg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,12 +18,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "buildNumber": "1.0.0",
+      "supportsTablet": false,
+      "buildNumber": "1.0.1",
       "bundleIdentifier": "com.areawide.crackapp"
     },
     "android": {
-      "package": "com.yourcompany.yourappname",
+      "package": "com.areawide.crackapp",
       "versionCode": 1
     },
     "web": {

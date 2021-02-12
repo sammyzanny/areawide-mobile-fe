@@ -15,7 +15,17 @@ export default function BottomTabNavigatorLI({user, token, logout}) {
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint,
+        showIcon: false, 
+        labelStyle: {
+        textAlignVertical: 'center',
+        position: 'absolute',
+        top: 20,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        }
+       }}
       cardStyle={{backgroundColor: 'transperent'}}>
       <BottomTab.Screen
         name="Upload" 

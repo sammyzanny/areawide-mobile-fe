@@ -17,13 +17,25 @@ export default function BottomTabNavigator({login, signup}) {
   return (
     <BottomTab.Navigator
       initialRouteName="TabOne"
-      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint }}>
+      tabBarOptions={{ activeTintColor: Colors[colorScheme].tint , 
+        showIcon: false, 
+        labelStyle: {
+        textAlignVertical: 'center',
+        position: 'absolute',
+        top: 20,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        }
+      }}>
+      
       <BottomTab.Screen
         name="Login"
       >{props => <TabOneNavigator login={login} />}
       </BottomTab.Screen>
       <BottomTab.Screen
-        name="SignUp"
+        name="Sign Up"
+
         >
         {props => <TabTwoNavigator signup={signup} /> }
         </BottomTab.Screen>

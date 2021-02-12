@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TouchableOpacity, Text, Alert } from 'react-native';
 import Urls from '../constants/Urls';
 
 import { View, TextInput } from './Themed';
@@ -17,12 +17,12 @@ export default function ResetPassword({navigation, route}) {
       }
   
       if(password.length < 8 || !hasNumber(password)){
-        alert("Password must be at least 8 characters long and have at least one number")
+        Alert.alert("Password Requirement", "Password must be at least 8 characters long and have at least one number")
         return
       } 
 
       if(password !== confirmPassword){
-        alert("Passwords do not match")
+        Alert.alert("Password Confirmation Failed:", "Passwords do not match")
         return
       }
       
@@ -41,7 +41,7 @@ export default function ResetPassword({navigation, route}) {
       fetch(Urls.API + '/resetpassword', reqObj)
       .then(resp => resp.json())
       .then(data => {
-        alert(data.message);
+        Alert.alert("Status:", data.message);
         navigation.navigate('Root');
       })
     }

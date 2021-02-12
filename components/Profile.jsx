@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, TextInput, TouchableOpacity, Text, Alert } from 'react-native';
 import Urls from '../constants/Urls'
 import { View } from './Themed';
+import Layout from '../constants/Layout'
 
 export default function Profile({user, logout, token}) {
 
@@ -31,9 +32,9 @@ export default function Profile({user, logout, token}) {
     .then(resp => resp.json())
     .then(data => {
         if (data.error){
-            alert(data.error)
+            Alert.alert("Login Error:", data.error)
         } else {
-          alert(data.message)
+          Alert.alert("Login Status", data.message)
           setName(data.user.name);
           setAddress(data.user.address);
           setPhone(data.user.phone);
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'left',
     width: 250,
-    height: 50,
+    height: Layout.window.height/16,
     },
     buttonText:{
       color:'#fff',

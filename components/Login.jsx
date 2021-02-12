@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Button, TextInput, TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
 import Urls from '../constants/Urls';
-
+import Layout from '../constants/Layout'
 import { Text, View} from './Themed';
 
 export default function Login({login}) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setLoading] = useState(false);
 
   const handleOnSubmit = () => {
+    setLoading(true)
     if(email.length == 0 || password.length == 0){
-      alert("Make sure all fields are filled")
+      Alert.alert("Missing Field", "Make sure all fields are filled")
+      setLoading(false)
       return
     }
 
@@ -19,11 +22,12 @@ export default function Login({login}) {
     
     setEmail("");
     setPassword("");
+    setLoading(false)
   }
 
   const forgotPassword = () => {
     if(email.length == 0){
-      alert("Please fill out the email field")
+      Alert.alert("Email Field Empty", "Please fill out the email field")
       return
     }
     
@@ -40,11 +44,15 @@ export default function Login({login}) {
   fetch(Urls.API + '/forgotpassword', reqObj)
   .then(resp => resp.json())
   .then(data => {
-      alert(data.message)
+      Alert.alert("Status:", data.message)
       setEmail("")
   })
   
 
+  }
+
+  if(isLoading){
+    return  <ActivityIndicator size="large" color='#42f5f5' />
   }
 
   

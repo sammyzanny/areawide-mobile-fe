@@ -1,15 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AsyncStorage, ImageBackground } from 'react-native'
+import { AsyncStorage, Alert } from 'react-native'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/index';
 import Urls from './constants/Urls';
+import AppLoading from 'expo-app-loading';
+import Layout from './constants/Layout'
 
 
 export default function App() {
-  const isLoadingComplete = useCachedResources();
+  console.log(Layout.window.width)
+  // const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -34,22 +37,24 @@ export default function App() {
            .then(response => response.json())
            .then(data =>  {
              if (data.message) {
-               alert(data.message)
+               Alert.alert("AutoLogin Failed", data.message)
              } else {
                setUser(data.user)
              }
              setReady(true)
-          });
-          
+            });
+            
+        } else {
+          setReady(true)
         }
       } catch (e) {
-        alert('Failed to fetch the data from storage')
+        Alert.alert("Error", "A login error occurred")
       }
-    
+        
     }
-
-    _retrieveToken()
-  }, [])
+      
+  _retrieveToken()
+}, [])
 
   
   
@@ -61,7 +66,7 @@ export default function App() {
       );
       
     } catch (error) {
-      alert('Failed to store data from storage')
+      Alert.alert("Error:", 'Failed to store data from storage')
     }
   };
 
@@ -69,7 +74,7 @@ export default function App() {
     try {
       await AsyncStorage.removeItem("token")
     } catch (error) {
-      alert("Failed to remove data from storage")
+      Alert.alert("Error:", "Failed to remove data from storage")
     }
   }
 
@@ -91,7 +96,7 @@ export default function App() {
       .then(response => response.json())
       .then(data =>  {
           if (data.message) {
-              alert(data.message)
+              Alert.alert("Status:", data.message)
               } else {
                 _storeToken(data.jwt)
                 setToken(data.jwt)
@@ -116,7 +121,7 @@ export default function App() {
     .then(resp => resp.json())
     .then(data => {
         if (data.error){
-            alert(data.error)
+            Alert.alert("Error", data.error)
         } else {
           _storeToken(data.jwt)
           setUser(data.user)
@@ -126,7 +131,7 @@ export default function App() {
 
 
   if (!isReady) {
-    return null;
+    return <AppLoading />;
   } else {
     return (
       <SafeAreaProvider>

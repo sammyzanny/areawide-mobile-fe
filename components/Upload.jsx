@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker'
 import React, { useState, useEffect} from 'react';
-import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, ActivityIndicator, Switch} from 'react-native';
+import { StyleSheet, TextInput, Image, Platform, TouchableOpacity, ActivityIndicator, Switch, Alert} from 'react-native';
 import vidpic from '../assets/film.png'
 import { Text, View } from './Themed';
 import Urls from '../constants/Urls';
@@ -23,7 +23,7 @@ export default function Upload({token}) {
         if (Platform.OS !== 'web') {
             const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
             if (status !== 'granted') {
-            alert('Sorry, we need camera roll permissions to make this work!');
+            Alert.alert("Permissions Error:", 'Sorry, we need camera roll permissions to make this work!');
             }
         }
         })();
@@ -34,18 +34,18 @@ export default function Upload({token}) {
             setBilling(address)
         }
 
-        // const uploadInfo = {message, address, contact, billing}
+        const uploadInfo = {message, address, contact, billing}
         
         let filled = true;
         
-        // for(const key of uploadInfo){
-        //     if(uploadInfo[key].length == 0 ){
-        //         filled = false;
-        //     }
-        // }
+        for(const key in uploadInfo){
+            if(uploadInfo[key].length == 0 ){
+                filled = false;
+            }
+        }
 
         if(!filled){
-            alert("Please fill out all upload fields")
+            Alert.alert("Missing Field(s)","Please fill out all upload fields")
             return
         }
         
@@ -81,7 +81,7 @@ export default function Upload({token}) {
         fetch(Urls.API + '/posts', reqObj)
         .then(resp => resp.json())
         .then(data => {
-            alert(data.message)
+            Alert.alert("Status:", data.message)
             setImages([])
             setMessage("");
             setAddress("");
@@ -94,8 +94,8 @@ export default function Upload({token}) {
     }
 
     const pickImage = async () => {
-        if(images.length === 12){
-            alert("Only 12 images max")
+        if(images.length === 8){
+            Alert.alert("Maximum Reached:", "Only 8 images max")
             return
         }
 
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
       fontSize: 18,
       textAlign: 'left',
       width: 250,
-      height: 50,
+      height: Layout.window.height/16,
     },
     chooseImageButton:{
         marginRight:40,

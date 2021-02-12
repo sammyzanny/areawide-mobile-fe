@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput, TouchableOpacity } from 'react-native';
-
+import { StyleSheet, TextInput, TouchableOpacity, Alert} from 'react-native';
+import Layout from '../constants/Layout'
 import { Text, View } from './Themed';
 
 export default function SignUp({signup}) {
@@ -21,7 +21,7 @@ export default function SignUp({signup}) {
     
     let filled = true;
 
-    for(const key of userInfo){
+    for(const key in userInfo){
       if(userInfo[key].length == 0 ){
         filled = false;
       }
@@ -32,7 +32,7 @@ export default function SignUp({signup}) {
     }
 
     if(password.length < 8 || !hasNumber(password)){
-      alert("Password must be at least 8 characters long and have at least one number")
+      Alert.alert("Password Requirement:", "Password must be at least 8 characters long and have at least one number")
       return
     } 
 
@@ -48,10 +48,10 @@ export default function SignUp({signup}) {
         setPhone("");
         setOfficename("")
       } else {
-        alert("Please make sure all fields are filled")
+        Alert.alert("Empty Field", "Please make sure all fields are filled")
       }
     } else {
-        alert("Passwords do not match");
+        Alert.alert("Password Confirmation Failed:", "Passwords do not match");
         setConfirmPassword("");
     }
     
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'left',
     width: 250,
-    height: 50,
+    height: Layout.window.height/16,
     },
     registerButton:{
       marginRight:40,
