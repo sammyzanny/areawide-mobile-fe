@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useEffect, useState} from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { AsyncStorage, Alert } from 'react-native'
+import { AsyncStorage, Alert, ActivityIndicator} from 'react-native'
 import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation/index';
@@ -11,12 +11,12 @@ import Layout from './constants/Layout'
 
 
 export default function App() {
-  console.log(Layout.window.width)
   // const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
   const [isReady, setReady]= useState(false)
+  const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
     const _retrieveToken =  async () => {
@@ -84,6 +84,7 @@ export default function App() {
   }
 
   const login = (userInfo) =>{
+    setLoading(true)
     const reqObj = {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -92,16 +93,17 @@ export default function App() {
       })
     }
 
-  fetch(Urls.API + "/auth", reqObj)
+    fetch(Urls.API + "/auth", reqObj)
       .then(response => response.json())
       .then(data =>  {
-          if (data.message) {
-              Alert.alert("Status:", data.message)
-              } else {
-                _storeToken(data.jwt)
-                setToken(data.jwt)
-                setUser(data.user)
-              }
+        if (data.message) {
+          Alert.alert("Status:", data.message)
+        } else {
+          _storeToken(data.jwt)
+          setToken(data.jwt)
+          setUser(data.user)
+        }
+        setLoading(false)
           
       });
 
@@ -109,6 +111,7 @@ export default function App() {
   }
 
   const signup = (userInfo) => {
+    setLoading(true)
     const reqObj = {
       method: "POST",
       headers: {"Content-Type": "application/json"},
@@ -120,19 +123,23 @@ export default function App() {
     fetch(Urls.API + "/users", reqObj)
     .then(resp => resp.json())
     .then(data => {
-        if (data.error){
-            Alert.alert("Error", data.error)
-        } else {
-          _storeToken(data.jwt)
-          setUser(data.user)
-        }
+      if (data.error){
+        Alert.alert("Error", data.error)
+      } else {
+        _storeToken(data.jwt)
+        setUser(data.user)
+      }
+      setLoading(false)
     })
   }
 
 
   if (!isReady) {
     return <AppLoading />;
-  } else {
+  } else if(isLoading){
+    return  <ActivityIndicator size="large" color='#999999' marginTop={Layout.window.height/2} />
+  }
+  else {
     return (
       <SafeAreaProvider>
         <Navigation colorScheme={colorScheme} user={user} login={login} logout={logout} signup={signup} token={token} />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Button, TextInput, TouchableOpacity, ActivityIndicator, Alert} from 'react-native';
+import { StyleSheet, Button, TextInput, TouchableOpacity, Alert} from 'react-native';
 import Urls from '../constants/Urls';
 import Layout from '../constants/Layout'
 import { Text, View} from './Themed';
@@ -8,13 +8,10 @@ export default function Login({login}) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setLoading] = useState(false);
 
   const handleOnSubmit = () => {
-    setLoading(true)
     if(email.length == 0 || password.length == 0){
       Alert.alert("Missing Field", "Make sure all fields are filled")
-      setLoading(false)
       return
     }
 
@@ -22,7 +19,6 @@ export default function Login({login}) {
     
     setEmail("");
     setPassword("");
-    setLoading(false)
   }
 
   const forgotPassword = () => {
@@ -51,9 +47,7 @@ export default function Login({login}) {
 
   }
 
-  if(isLoading){
-    return  <ActivityIndicator size="large" color='#42f5f5' />
-  }
+ 
 
   
 
