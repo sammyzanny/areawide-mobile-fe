@@ -10,9 +10,9 @@ export default function TabOneScreen({token}) {
   return (
     
     <View style={styles.container}>
-      <ImageBackground source={image} style={styles.image} >
+      {/* <ImageBackground source={image} style={styles.image} > */}
       <Upload token={token}/>
-      </ ImageBackground >
+      {/* </ ImageBackground > */}
     </View>
   );
 }

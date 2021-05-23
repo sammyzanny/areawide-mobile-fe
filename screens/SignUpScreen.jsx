@@ -8,9 +8,9 @@ import Layout from '../constants/Layout'
 export default function TabTwoScreen({signup}) {
   return (
     <View style={styles.container}>
-      <ImageBackground style={styles.image} source={crackpic}>
+      {/* <ImageBackground style={styles.image} source={crackpic}> */}
         <SignUp signup={signup} />
-      </ImageBackground>
+      {/* </ImageBackground> */}
     </View>
   );
 }

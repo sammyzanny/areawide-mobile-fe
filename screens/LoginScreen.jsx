@@ -10,10 +10,10 @@ export default function LoginScreen({login}) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground source={crackpic} style={styles.image} >
+      {/* <ImageBackground source={crackpic} style={styles.image} > */}
         <View style={styles.separator} />
       <Login login={login} />
-      </ ImageBackground>
+      {/* </ ImageBackground> */}
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
     </View>
   );
